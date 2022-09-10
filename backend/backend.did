@@ -1,0 +1,4 @@
+service : {
+    "query_call": (text) -> (text) query;
+    "update_call": () -> ();
+}

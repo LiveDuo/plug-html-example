@@ -1,0 +1,13 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start:frontend": "serve frontend",
+    "deploy:backend": "dfx deploy backend",
+    "start:replica": "dfx start --clean"
+  },
+  "devDependencies": {
+    "serve": "^14.0.1"
+  }
+}
