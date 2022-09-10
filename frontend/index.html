@@ -38,7 +38,7 @@
         }
 
         try {
-            const host = 'https://mainnet.plugwallet.ooo'
+            const host = 'http://localhost:8000/'
 		    const whitelist = ['rrkah-fqaaa-aaaaa-aaaaq-cai']
 			await window.ic?.plug?.requestConnect({ host, whitelist })
             const x = await window.ic?.plug.sessionManager.sessionData?.agent.fetchRootKey()
