@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { HttpAgent } from '@dfinity/agent'
+
 function App() {
 
   useEffect(() => {
@@ -39,9 +41,15 @@ function App() {
     try {
       const host = 'http://localhost:8000/'
       const whitelist = ['rrkah-fqaaa-aaaaa-aaaaq-cai']
-      const x = await window.ic?.plug.sessionManager.sessionData?.agent.fetchRootKey()
+
+      const agent = new HttpAgent({ host })
+      const rootKey = await agent.fetchRootKey()
+      console.log('root key agent', rootKey)
+
+      const rootKey2 = await window.ic?.plug.sessionManager.sessionData?.agent.fetchRootKey()
+      console.log('root key plug', rootKey2)
+
       await window.ic?.plug?.requestConnect({ host, whitelist })
-      console.log('root key', x)
     } catch (e) {
       console.log(e)
     }
