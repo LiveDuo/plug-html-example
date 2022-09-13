@@ -10,25 +10,56 @@ function App() {
       const connected = await window.ic.plug.isConnected()
       if (connected) {
         console.log('connected')
-        // console.log(JSON.stringify(windows.ic.plug))
       }
     })()
   }, [])
 
 
   const debug = async () => {
-    // console.log(window.ic.plug.sessionManager.getSession())
-    console.log(window.ic.plug)
-    // console.log(await window.ic.plug.sessionManager.getConnectionData())
-    // console.log(await window.ic.plug.getICNSInfo())
+    
+    if (!window.ic?.plug) {
+      alert('no wallet')
+      return
+    }
+
+    try {
+      const hostLocal = 'http://localhost:8000/'
+      const hostMainnet = 'https://ic0.app'
+      const whitelist = ['rrkah-fqaaa-aaaaa-aaaaq-cai']
+
+      const agentLocal = new HttpAgent({ host: hostLocal })
+      const rootKeyAgentLocal = await agentLocal.fetchRootKey()
+      console.log('root key agent local', rootKeyAgentLocal)
+
+      const agentMainnet = new HttpAgent({ host: hostMainnet })
+      const rootKeyAgentMainnet = await agentMainnet.fetchRootKey()
+      console.log('root key agent mainnet', rootKeyAgentMainnet)
+
+      const rootKeyPlugBefore = await window.ic?.plug.sessionManager.sessionData?.agent.fetchRootKey()
+      console.log('root key plug before', rootKeyPlugBefore)
+
+      await window.ic?.plug?.requestConnect({ host: hostLocal, whitelist })
+
+      const rootKeyPlugLocal = await window.ic?.plug.sessionManager.sessionData?.agent.fetchRootKey()
+      console.log('root key plug local', rootKeyPlugLocal)
+
+      await window.ic?.plug?.requestConnect({ host: hostMainnet, whitelist })
+      
+      const rootKeyPlugMainnet = await window.ic?.plug.sessionManager.sessionData?.agent.fetchRootKey()
+      console.log('root key plug mainnet', rootKeyPlugMainnet)
+
+    } catch (e) {
+      console.log(e)
+    }
+
   }
 
   const disconnectWallet = async () => {
-    // const p1 = new Promise((r) => setTimeout(() => r(), 1000))
-    // const p2 = window.ic.plug.disconnect() // not resolving
-    // await Promise.race([p1, p2]) // hacky fix
+    const p1 = new Promise((r) => setTimeout(() => r(), 1000))
+    const p2 = window.ic.plug.disconnect() // not resolving
+    await Promise.race([p1, p2]) // hacky fix
 
-    await window.ic.plug.disconnect()
+    // await window.ic.plug.disconnect()
   }
 
   const connectWallet = async () => {
