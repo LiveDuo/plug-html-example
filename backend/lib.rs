@@ -6,6 +6,7 @@ fn query_call() -> String {
 }
 
 #[ic_cdk_macros::update]
-fn update_call() {
+fn update_call() -> String {
     ic_cdk::println!("update_call!");
+    return "Call".to_string();
 }

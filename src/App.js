@@ -91,7 +91,7 @@ function App() {
     const interfaceFactory = ({ IDL }) => {
       return IDL.Service({
         'query_call': IDL.Func([], [IDL.Text], ['query']),
-        'update_call': IDL.Func([], [], ['update']),
+        'update_call': IDL.Func([], [IDL.Text], ['update']),
       });
     };
     const actor = await window.ic?.plug.createActor({ canisterId, interfaceFactory });
